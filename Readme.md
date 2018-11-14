@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм» [![Build status][travis-image]][travis-url]
 
 * Студент: [Данила Буланов](https://up.htmlacademy.ru/javascript/16/user/108644).
-* Наставник: `Неизвестно`.
+* Наставник: [Владислав Балабанович](https://htmlacademy.ru/profile/balabanovich).
 
 ---
 

@@ -132,4 +132,61 @@ var renderBigPicture = function () {
 };
 
 renderPictures();
-renderBigPicture();
+
+// ---- 4 задание ----
+var ESC_KEYCODE = 27;
+
+var uploadFile = document.getElementById('upload-file');
+var imgUploadOverlay = document.querySelector('.img-upload__overlay');
+var imgUploadCancel = document.querySelector('.img-upload__cancel');
+var smallPictures = document.querySelectorAll('.picture');
+var bigPictureCancel = document.querySelector('.big-picture__cancel');
+
+var onImgUploadOverlayEscPress = function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    closeImgUploadOverlay();
+  }
+};
+
+var openImgUploadOverlay = function () {
+  imgUploadOverlay.classList.remove('hidden');
+  document.addEventListener('keydown', onImgUploadOverlayEscPress);
+};
+
+var closeImgUploadOverlay = function () {
+  imgUploadOverlay.classList.add('hidden');
+  uploadFile.nodeValue = '';
+  document.removeEventListener('keydown', onImgUploadOverlayEscPress);
+};
+
+uploadFile.addEventListener('change', function () {
+  openImgUploadOverlay();
+});
+
+imgUploadCancel.addEventListener('click', function () {
+  closeImgUploadOverlay();
+});
+
+var closeBigPicture = function () {
+  bigPicture.classList.add('hidden');
+};
+
+var onBigPictureEscPress = function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    closeBigPicture();
+  }
+};
+
+var openBigPicture = function (evt) {
+  evt.preventDefault();
+  renderBigPicture();
+  document.addEventListener('keydown', onBigPictureEscPress);
+  bigPictureCancel.addEventListener('click', closeBigPicture);
+};
+
+for (var i = 0; i < smallPictures.length; i++) {
+  var smallPicture = smallPictures[i];
+  smallPicture.addEventListener('click', openBigPicture);
+}
+
+

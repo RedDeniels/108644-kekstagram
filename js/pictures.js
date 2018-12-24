@@ -239,6 +239,7 @@ var onEffectLevelPinMouseup = function () {
 
 var onImgUploadOverlayEscPress = function (evt) {
   if (evt.keyCode === ESC_KEYCODE) {
+    // Елси есть фокус на хештегах или коменте, отменять
     closeImgUploadOverlay();
   }
 };
@@ -256,6 +257,8 @@ var closeImgUploadOverlay = function () {
   imgUploadOverlay.classList.add('hidden');
   uploadFile.value = '';
   document.removeEventListener('keydown', onImgUploadOverlayEscPress);
+  textHashtags.removeEventListener('change', textHashtagsValidation);
+  imgUploadForm.removeEventListener('submit', onImgUploadFormSubmit);
 };
 
 uploadFile.addEventListener('change', function () {
@@ -343,7 +346,7 @@ var hashTagsValidity = function (hashTags) {
   var hashTagsArr = separationHashTags(hashTags);
   hashTagsCheck(hashTagsArr);
   hashTagsСompareCheck(hashTagsArr);
-  // здесь должно быть ожидание изменения инпута
+
 };
 
 var textHashtagsValidation = function () {
@@ -353,7 +356,11 @@ var textHashtagsValidation = function () {
 var onImgUploadFormSubmit = function (evt) {
   evt.preventDefault();
   textHashtagsValidation();
-  if (textHashtags.validationMessage === '') {
+  if (textHashtags.validationMessage !== '') {
+    console.log("не прошла");
+    textHashtags.reportValidity();
+    textHashtags.addEventListener('change', textHashtagsValidation);
+  } else {
     evt.target.submit();
   }
 };

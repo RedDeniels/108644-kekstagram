@@ -145,7 +145,7 @@ var smallPictures = document.querySelectorAll('.picture');
 var bigPictureCancel = document.querySelector('.big-picture__cancel');
 
 var textHashtags = document.querySelector('.text__hashtags');
-// var textDescription = document.querySelector('.text__description');
+var textDescription = document.querySelector('.text__description');
 var imgUploadForm = document.querySelector('.img-upload__form');
 
 var imgUploadEffectLevel = document.querySelector('.img-upload__effect-level');
@@ -239,15 +239,36 @@ var onEffectLevelPinMouseup = function () {
 
 var onImgUploadOverlayEscPress = function (evt) {
   if (evt.keyCode === ESC_KEYCODE) {
-    // Елси есть фокус на хештегах или коменте, отменять
     closeImgUploadOverlay();
   }
+};
+
+var onTextHashTagsFocus = function () {
+  document.removeEventListener('keydown', onImgUploadOverlayEscPress);
+  textHashtags.addEventListener('blur', onTextHashTagsBlur);
+
+};
+
+var onTextDescriptionFocus = function () {
+  document.removeEventListener('keydown', onImgUploadOverlayEscPress);
+  textDescription.addEventListener('blur', onTextDescriptionBlur);
+
+};
+
+var onTextHashTagsBlur = function () {
+  document.addEventListener('keydown', onImgUploadOverlayEscPress);
+};
+
+var onTextDescriptionBlur = function () {
+  document.addEventListener('keydown', onImgUploadOverlayEscPress);
 };
 
 var openImgUploadOverlay = function () {
   imgUploadOverlay.classList.remove('hidden');
   document.addEventListener('keydown', onImgUploadOverlayEscPress);
   imgUploadForm.addEventListener('submit', onImgUploadFormSubmit);
+  textHashtags.addEventListener('focus', onTextHashTagsFocus);
+  textDescription.addEventListener('focus', onTextDescriptionFocus);
   uploadImage.classList.add(effectsPrefix + defaultEffect);
   onEffectClick();
   onEffectLevelPinMouseup();
@@ -259,6 +280,8 @@ var closeImgUploadOverlay = function () {
   document.removeEventListener('keydown', onImgUploadOverlayEscPress);
   textHashtags.removeEventListener('change', textHashtagsValidation);
   imgUploadForm.removeEventListener('submit', onImgUploadFormSubmit);
+  imgUploadForm.removeEventListener('submit', onImgUploadFormSubmit);
+  textHashtags.removeEventListener('focus', onTextDescriptionFocus);
 };
 
 uploadFile.addEventListener('change', function () {
@@ -357,7 +380,6 @@ var onImgUploadFormSubmit = function (evt) {
   evt.preventDefault();
   textHashtagsValidation();
   if (textHashtags.validationMessage !== '') {
-    console.log("не прошла");
     textHashtags.reportValidity();
     textHashtags.addEventListener('change', textHashtagsValidation);
   } else {

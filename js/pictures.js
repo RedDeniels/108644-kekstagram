@@ -168,6 +168,9 @@ var defaultEffect = effectHeatName;
 var userEffect = defaultEffect;
 
 var effectLevelLine = document.querySelector('.effect-level__line');
+var EFFECT_LEVEL_LINE_WIDTH = 453;
+var effectLevelPin = document.querySelector('.effect-level__pin');
+var effectLevelDepth = document.querySelector('.effect-level__depth');
 var effectLevelValue = document.querySelector('.effect-level__value');
 var effectLevelUser = 1;
 
@@ -222,18 +225,47 @@ var onEffectClick = function () {
   effectNone.addEventListener('click', onEffectNoneClick);
 };
 
-var effectLevelPinСalculation = function (evt) {
-  var minEffectLevel = effectLevelLine.getBoundingClientRect().left;
-  var maxEffectLevel = effectLevelLine.getBoundingClientRect().right;
-  var lengthEffectLevel = maxEffectLevel - minEffectLevel;
-  effectLevelValue.value = (((evt.pageX - minEffectLevel) / lengthEffectLevel) * 100).toFixed();
-  effectLevelUser = effectLevelValue.value;
-  onSpecialEffectClick(userEffect);
-};
+effectLevelPin.addEventListener('mousedown', function (evt) {
+  var startCoords = evt.clientX;
 
-var onEffectLevelPinMouseup = function () {
-  effectLevelLine.addEventListener('mouseup', effectLevelPinСalculation);
-};
+  var onEffectLevelPinMouseMove = function (moveEvt) {
+    if (startCoords < effectLevelLine.getBoundingClientRect().left) {
+      startCoords = effectLevelLine.getBoundingClientRect().left;
+    } else if (startCoords > effectLevelLine.getBoundingClientRect().right) {
+      startCoords = effectLevelLine.getBoundingClientRect().right;
+    }
+    var shift = startCoords - moveEvt.clientX;
+    startCoords = moveEvt.clientX;
+    if (effectLevelPin.offsetLeft - shift > EFFECT_LEVEL_LINE_WIDTH) {
+      effectLevelPin.style.left = EFFECT_LEVEL_LINE_WIDTH + 'px';
+    } else if (effectLevelPin.offsetLeft - shift < 0) {
+      effectLevelPin.style.left = 0 + 'px';
+    } else {
+      effectLevelPin.style.left = (effectLevelPin.offsetLeft - shift) + 'px';
+    }
+    var minEffectLevel = effectLevelLine.getBoundingClientRect().left;
+    var maxEffectLevel = effectLevelLine.getBoundingClientRect().right;
+    var lengthEffectLevel = maxEffectLevel - minEffectLevel;
+    effectLevelValue.value = (((moveEvt.pageX - minEffectLevel) / lengthEffectLevel) * 100).toFixed();
+    if (effectLevelValue.value < 0) {
+      effectLevelValue.value = 0;
+    } else if (effectLevelValue.value > 100) {
+      effectLevelValue.value = 100;
+    }
+    effectLevelUser = effectLevelValue.value;
+    effectLevelDepth.style.width = effectLevelValue.value + '%';
+    onSpecialEffectClick(userEffect);
+  };
+
+  var onEffectLevelPinMouseUp = function (upEvt) {
+    upEvt.preventDefault();
+    document.removeEventListener('mousemove', onEffectLevelPinMouseMove);
+    document.removeEventListener('mouseup', onEffectLevelPinMouseUp);
+  };
+
+  document.addEventListener('mousemove', onEffectLevelPinMouseMove);
+  document.addEventListener('mouseup', onEffectLevelPinMouseUp);
+});
 
 // ---- Появление и скрытие попапа и полноэкранного режима просмотра ----
 
@@ -271,7 +303,6 @@ var openImgUploadOverlay = function () {
   textDescription.addEventListener('focus', onTextDescriptionFocus);
   uploadImage.classList.add(effectsPrefix + defaultEffect);
   onEffectClick();
-  onEffectLevelPinMouseup();
 };
 
 var closeImgUploadOverlay = function () {

@@ -41,30 +41,23 @@ var getPictureUrl = function (address, number, extension) {
   return address + number + extension;
 };
 
-var randomCount = function (max, min) {
-  if (arguments.length === 1) {
-    return Math.floor(Math.random() * max);
-  }
-  return Math.floor(Math.random() * (max - min) + min);
-};
-
 var getCommentsList = function (commentsList) {
   var pictureComments = [];
-  pictureComments.length = randomCount(1, commentsList.length);
+  pictureComments.length = window.util.randomCount(1, commentsList.length);
   for (var i = 0; i < pictureComments.length; i++) {
-    pictureComments[i] = commentsList[randomCount(commentsList.length)];
+    pictureComments[i] = commentsList[window.util.randomCount(commentsList.length)];
   }
   return pictureComments;
 };
 
 var getDescription = function (descriptionsList) {
-  return descriptionsList[randomCount(descriptionsList.length)];
+  return descriptionsList[window.util.randomCount(descriptionsList.length)];
 };
 
 var generatePicture = function (list, pictureAddress, number, extension, likesMax, likesMin, commentsList, descriptionsList) {
   var pictureInfo = {
     url: getPictureUrl(pictureAddress, number + 1, extension),
-    likes: randomCount(likesMax, likesMin),
+    likes: window.util.randomCount(likesMax, likesMin),
     comments: getCommentsList(commentsList),
     description: getDescription(descriptionsList)
   };
@@ -111,7 +104,7 @@ var renderBigPictureCommentsList = function (comments, commentsBlock) {
 var renderBigPictureComment = function (commentText, commentsBlock) {
 
   var comment = commentsBlock.querySelector('.social__comment').cloneNode(true);
-  comment.querySelector('.social__picture').src = COMMENT_AVATAR_ADDRESS + COMMENT_AVATAR_PREFIX + randomCount(COMMENT_AMOUNT, 1) + COMMENT_AVATAR_EXTENSION;
+  comment.querySelector('.social__picture').src = COMMENT_AVATAR_ADDRESS + COMMENT_AVATAR_PREFIX + window.util.randomCount(COMMENT_AMOUNT, 1) + COMMENT_AVATAR_EXTENSION;
   comment.querySelector('.social__text').textContent = commentText;
   comment.classList.remove('visually-hidden');
 
@@ -135,7 +128,6 @@ renderPictures();
 
 // ---- 4 задание ----
 
-var ESC_KEYCODE = 27;
 var MAX_HASHTAGS = 5;
 var MAX_LENGHT_HASHTAG = 20;
 var uploadFile = document.getElementById('upload-file');
@@ -270,7 +262,7 @@ effectLevelPin.addEventListener('mousedown', function (evt) {
 // ---- Появление и скрытие попапа и полноэкранного режима просмотра ----
 
 var onImgUploadOverlayEscPress = function (evt) {
-  if (evt.keyCode === ESC_KEYCODE) {
+  if (evt.keyCode === window.util.ESC_KEYCODE) {
     closeImgUploadOverlay();
   }
 };
@@ -328,7 +320,7 @@ var closeBigPicture = function () {
 };
 
 var onBigPictureEscPress = function (evt) {
-  if (evt.keyCode === ESC_KEYCODE) {
+  if (evt.keyCode === window.util.ESC_KEYCODE) {
     closeBigPicture();
   }
 };

@@ -1,6 +1,5 @@
 'use strict';
 
-var PICTURE_AMOUNT = 25;
 var PICTURE_ADDRESS = 'photos/';
 var PICTURE_EXTENSION = '.jpg';
 var COMMENTS_LIST = [
@@ -19,9 +18,18 @@ var DESCRIPTIONS_LIST = [
   'Цените каждое мгновенье. Цените тех, кто рядом и с вами и отгоняйте все сомненья. Не обижайте всех словами......',
   'Вот это тачка!'];
 
+
 var LIKES_MIN = 15;
 var LIKES_MAX = 200;
 var picturesElementsList = [];
+
+var COMMENT_AVATAR_ADDRESS = 'img/';
+var COMMENT_AVATAR_PREFIX = 'avatar-';
+var COMMENT_AVATAR_EXTENSION = '.svg';
+var COMMENT_AMOUNT = 6;
+
+var PICTURE_AMOUNT = 25;
+
 var pictures = document.querySelector('.pictures');
 var picture = document.querySelector('#picture')
     .content
@@ -32,37 +40,6 @@ var BIG_PICTURE_EXAMPLE = 1;
 var commentCount = document.querySelector('.social__comment-count');
 var commentsLoader = document.querySelector('.comments-loader');
 var socialComments = document.querySelector('.social__comments');
-var COMMENT_AVATAR_ADDRESS = 'img/';
-var COMMENT_AVATAR_PREFIX = 'avatar-';
-var COMMENT_AVATAR_EXTENSION = '.svg';
-var COMMENT_AMOUNT = 6;
-
-var getPictureUrl = function (address, number, extension) {
-  return address + number + extension;
-};
-
-var getCommentsList = function (commentsList) {
-  var pictureComments = [];
-  pictureComments.length = window.util.randomCount(1, commentsList.length);
-  for (var i = 0; i < pictureComments.length; i++) {
-    pictureComments[i] = commentsList[window.util.randomCount(commentsList.length)];
-  }
-  return pictureComments;
-};
-
-var getDescription = function (descriptionsList) {
-  return descriptionsList[window.util.randomCount(descriptionsList.length)];
-};
-
-var generatePicture = function (list, pictureAddress, number, extension, likesMax, likesMin, commentsList, descriptionsList) {
-  var pictureInfo = {
-    url: getPictureUrl(pictureAddress, number + 1, extension),
-    likes: window.util.randomCount(likesMax, likesMin),
-    comments: getCommentsList(commentsList),
-    description: getDescription(descriptionsList)
-  };
-  return pictureInfo;
-};
 
 var createPictureElement = function (pictureElement, pictureBlock) {
   pictureBlock.querySelector('.picture__img').src = pictureElement.url;
@@ -71,7 +48,7 @@ var createPictureElement = function (pictureElement, pictureBlock) {
 };
 
 var renderPictureElement = function (i, pictureElementList, pictureAddress, pictureExtension, likeMin, likeMax, commentsList, descriptionsList) {
-  picturesElementsList[i] = generatePicture(picturesElementsList, pictureAddress, i, pictureExtension, likeMin, likeMax, commentsList, descriptionsList);
+  picturesElementsList[i] = window.data.generatePicture(picturesElementsList, pictureAddress, i, pictureExtension, likeMin, likeMax, commentsList, descriptionsList);
   var pictureBlock = picture.cloneNode(true);
   createPictureElement(picturesElementsList[i], pictureBlock);
 
@@ -137,15 +114,6 @@ var onBigPictureEscPress = function (evt) {
   }
 };
 
-var onSmallPicturesClick = function () {
-  for (var i = 0; i < smallPictures.length; i++) {
-    var smallPicture = smallPictures[i];
-    smallPicture.addEventListener('click', openBigPicture);
-  }
-};
-
-onSmallPicturesClick();
-
 var closeBigPicture = function () {
   bigPicture.classList.add('hidden');
 };
@@ -156,3 +124,12 @@ var openBigPicture = function (evt) {
   document.addEventListener('keydown', onBigPictureEscPress);
   bigPictureCancel.addEventListener('click', closeBigPicture);
 };
+
+var onSmallPicturesClick = function () {
+  for (var i = 0; i < smallPictures.length; i++) {
+    var smallPicture = smallPictures[i];
+    smallPicture.addEventListener('click', openBigPicture);
+  }
+};
+
+onSmallPicturesClick();

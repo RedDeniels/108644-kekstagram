@@ -41,9 +41,12 @@
   var error = document.querySelector('#error')
     .content
     .querySelector('.error');
-
   var errorButtonAgain = error.querySelector('.error__button-again');
   var errorButtonOther = error.querySelector('.error__button-other');
+  var success = document.querySelector('#success')
+    .content
+    .querySelector('.success');
+  var successButton = success.querySelector('.success__button');
   // ---- Работа фильтров ----
 
   var switchEffect = function () {
@@ -251,8 +254,18 @@
     hashTagsValidity(textHashtags.value);
   };
 
+  var onSuccessButtonClick = function () {
+    successButton.removeEventListener('click', onSuccessButtonClick);
+    main.querySelector('.success').remove();
+  };
+
   var onPictureUploadSuccess = function () {
+    var fragment = success.cloneNode(true);
+    successButton = fragment.querySelector('.success__button');
+    main.appendChild(fragment);
     imgUploadOverlay.classList.add('hidden');
+    uploadFile.value = '';
+    successButton.addEventListener('click', onSuccessButtonClick);
   };
 
   var onErrorButtonAgainClick = function () {

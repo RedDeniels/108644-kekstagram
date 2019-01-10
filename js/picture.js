@@ -22,16 +22,20 @@
     return pictureBlock;
   };
 
-  window.backend.load(function (photos) {
+  var renderPictures = function (photos) {
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < PICTURE_AMOUNT; i++) {
       picturesElementsList[i] = photos[i];
       fragment.appendChild(renderPictureElement(picturesElementsList[i]));
     }
     pictures.appendChild(fragment);
-  });
+    window.gallery.onSmallPicturesClick();
+  };
+
+  window.backend.load(renderPictures);
 
   window.picture = {
-    picturesElementsList: picturesElementsList
+    picturesElementsList: picturesElementsList,
+    pictures: pictures
   };
 })();

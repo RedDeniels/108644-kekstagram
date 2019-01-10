@@ -37,6 +37,13 @@
   var effectLevelValue = document.querySelector('.effect-level__value');
   var effectLevelUser = 1;
 
+  var main = document.querySelector('main');
+  var error = document.querySelector('#error')
+    .content
+    .querySelector('.error');
+
+  var errorButtonAgain = error.querySelector('.error__button-again');
+  var errorButtonOther = error.querySelector('.error__button-other');
   // ---- Работа фильтров ----
 
   var switchEffect = function () {
@@ -244,6 +251,34 @@
     hashTagsValidity(textHashtags.value);
   };
 
+  var onPictureUploadSuccess = function () {
+    imgUploadOverlay.classList.add('hidden');
+  };
+
+  var onErrorButtonAgainClick = function () {
+    errorButtonAgain.removeEventListener('click', onErrorButtonAgainClick);
+    main.querySelector('.error').remove();
+    var event = new Event('click');
+    onImgUploadFormSubmit(event);
+  };
+
+  var onErrorButtonOtherClick = function () {
+    errorButtonOther.removeEventListener('click', onErrorButtonOtherClick);
+    main.querySelector('.error').remove();
+    uploadFile.value = '';
+    uploadFile.click();
+  };
+
+  var onPictureUploadError = function () {
+    var fragment = error.cloneNode(true);
+    errorButtonAgain = fragment.querySelector('.error__button-again');
+    errorButtonOther = fragment.querySelector('.error__button-other');
+    main.appendChild(fragment);
+    imgUploadOverlay.classList.add('hidden');
+    errorButtonAgain.addEventListener('click', onErrorButtonAgainClick);
+    errorButtonOther.addEventListener('click', onErrorButtonOtherClick);
+  };
+
   var onImgUploadFormSubmit = function (evt) {
     evt.preventDefault();
     textHashtagsValidation();
@@ -251,9 +286,12 @@
       textHashtags.reportValidity();
       textHashtags.addEventListener('change', textHashtagsValidation);
     } else {
-      window.backend.upload(new FormData(imgUploadForm), function () {
-        imgUploadOverlay.classList.add('hidden');
-      });
+      window.backend.upload(new FormData(imgUploadForm), onPictureUploadSuccess, onPictureUploadError);
     }
+  };
+
+  window.form = {
+    main: main,
+    error: error
   };
 })();

@@ -22,7 +22,7 @@
     return pictureBlock;
   };
 
-  var renderPictures = function (photos) {
+  var onPictureLoadSuccess = function (photos) {
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < PICTURE_AMOUNT; i++) {
       picturesElementsList[i] = photos[i];
@@ -32,7 +32,16 @@
     window.gallery.onSmallPicturesClick();
   };
 
-  window.backend.load(renderPictures);
+  var onPictureLoadError = function (errorMessage) {
+    var fragment = window.form.error.cloneNode(true);
+    fragment.querySelector('.error__title').textContent = errorMessage;
+    window.form.main.appendChild(fragment);
+
+    // Заглушка
+
+  };
+
+  window.backend.load(onPictureLoadSuccess, onPictureLoadError);
 
   window.picture = {
     picturesElementsList: picturesElementsList,

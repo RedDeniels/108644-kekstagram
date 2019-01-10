@@ -251,7 +251,9 @@
       textHashtags.reportValidity();
       textHashtags.addEventListener('change', textHashtagsValidation);
     } else {
-      evt.target.submit();
+      window.backend.upload(new FormData(imgUploadForm), function () {
+        imgUploadOverlay.classList.add('hidden');
+      });
     }
   };
 })();

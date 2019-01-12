@@ -100,28 +100,30 @@
     document.addEventListener('mouseup', onEffectLevelPinMouseUp);
   });
 
+  var onEffectClick = function () {
+    effectChrome.addEventListener('click', function () {
+      onSpecialEffectClick(effectChromeName);
+    });
+    effectSepia.addEventListener('click', function () {
+      onSpecialEffectClick(effectSepiaName);
+    });
+    effectMarvin.addEventListener('click', function () {
+      onSpecialEffectClick(effectMarvinName);
+    });
+    effectPhobos.addEventListener('click', function () {
+      onSpecialEffectClick(effectPhobosName);
+    });
+    effectHeat.addEventListener('click', function () {
+      onSpecialEffectClick(effectHeatName);
+    });
+    effectNone.addEventListener('click', onEffectNoneClick);
+  };
+
   window.effect = {
     uploadImage: uploadImage,
     effectsPrefix: effectsPrefix,
     defaultEffect: defaultEffect,
-    onEffectClick: function () {
-      effectChrome.addEventListener('click', function () {
-        onSpecialEffectClick(effectChromeName);
-      });
-      effectSepia.addEventListener('click', function () {
-        onSpecialEffectClick(effectSepiaName);
-      });
-      effectMarvin.addEventListener('click', function () {
-        onSpecialEffectClick(effectMarvinName);
-      });
-      effectPhobos.addEventListener('click', function () {
-        onSpecialEffectClick(effectPhobosName);
-      });
-      effectHeat.addEventListener('click', function () {
-        onSpecialEffectClick(effectHeatName);
-      });
-      effectNone.addEventListener('click', onEffectNoneClick);
-    }
+    onEffectClick: onEffectClick
 
   };
 })();

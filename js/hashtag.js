@@ -57,9 +57,11 @@
 
   };
 
+  var textHashtagsValidation = function () {
+    hashTagsValidity(window.form.textHashtags.value);
+  };
+
   window.hashtag = {
-    textHashtagsValidation: function () {
-      hashTagsValidity(window.form.textHashtags.value);
-    }
+    textHashtagsValidation: textHashtagsValidation
   };
 })();

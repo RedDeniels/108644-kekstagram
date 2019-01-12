@@ -29,14 +29,15 @@
     bigPictureCancel.addEventListener('click', closeBigPicture);
   };
 
+  var onSmallPicturesClick = function () {
+    var smallPictures = document.querySelectorAll('.picture');
+    for (var i = 0; i < smallPictures.length; i++) {
+      var smallPicture = smallPictures[i];
+      smallPicture.addEventListener('click', openBigPicture);
+    }
+  };
 
   window.gallery = {
-    onSmallPicturesClick: function () {
-      var smallPictures = document.querySelectorAll('.picture');
-      for (var i = 0; i < smallPictures.length; i++) {
-        var smallPicture = smallPictures[i];
-        smallPicture.addEventListener('click', openBigPicture);
-      }
-    }
+    onSmallPicturesClick: onSmallPicturesClick
   };
 })();

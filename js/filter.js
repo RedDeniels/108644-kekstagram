@@ -6,6 +6,7 @@
   var filterPopular = document.getElementById('filter-popular');
   var filterNew = document.getElementById('filter-new');
   var filterDiscussed = document.getElementById('filter-discussed');
+  var sortPictures;
 
   var filterSwitch = function () {
     filterPopular.classList.remove('img-filters__button--active');
@@ -21,33 +22,37 @@
   };
 
   var newFilter = function () {
-    var newPictures = window.picture.picturesElementsList.slice();
+    window.filter.sortPictures = window.picture.picturesElementsList.slice();
     var j;
     var store;
-    for (var i = newPictures.length - 1; i > 0; i--) {
+    for (var i = window.filter.sortPictures.length - 1; i > 0; i--) {
       j = Math.floor(Math.random() * (i + 1));
-      store = newPictures[j];
-      newPictures[j] = newPictures[i];
-      newPictures[i] = store;
+      store = window.filter.sortPictures[j];
+      window.filter.sortPictures[j] = window.filter.sortPictures[i];
+      window.filter.sortPictures[i] = store;
     }
     toClearPictures();
-    window.picture.renderPictures(newPictures, FILTER_NEW_COUNT);
+    window.picture.renderPictures(window.filter.sortPictures, FILTER_NEW_COUNT);
+    window.gallery.onSmallPicturesClick();
   };
 
   var discussedFilter = function () {
-    var discussedPictures = window.picture.picturesElementsList;
-    discussedPictures.sort(function (a, b) {
+    window.filter.sortPictures = window.picture.picturesElementsList.slice();
+    window.filter.sortPictures.sort(function (a, b) {
       return b.comments.length - a.comments.length;
     });
     toClearPictures();
-    window.picture.renderPictures(discussedPictures, discussedPictures.length);
+    window.picture.renderPictures(window.filter.sortPictures, window.filter.sortPictures.length);
+    window.gallery.onSmallPicturesClick();
   };
 
   var onFilterPopularClick = function () {
     filterSwitch();
     filterPopular.classList.add('img-filters__button--active');
     toClearPictures();
-    window.picture.renderPictures(window.picture.picturesElementsList, window.picture.PICTURE_AMOUNT);
+    window.filter.sortPictures = window.picture.picturesElementsList;
+    window.picture.renderPictures(window.filter.sortPictures, window.picture.PICTURE_AMOUNT);
+    window.gallery.onSmallPicturesClick();
   };
 
   var onFilterNewClick = function () {
@@ -67,6 +72,7 @@
   filterDiscussed.addEventListener('click', onFilterDiscussedClick);
 
   window.filter = {
-    imgFilters: imgFilters
+    imgFilters: imgFilters,
+    sortPictures: sortPictures
   };
 })();

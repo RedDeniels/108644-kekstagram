@@ -20,7 +20,7 @@
     var pictureList = window.picture.pictures.querySelectorAll('.picture');
     for (var i = 0; i < pictureList.length; i++) {
       if (evt.target === pictureList[i].querySelector('img')) {
-        pictureElement = window.picture.picturesElementsList[i];
+        pictureElement = window.filter.sortPictures[i];
         break;
       }
     }
@@ -38,6 +38,6 @@
   };
 
   window.gallery = {
-    onSmallPicturesClick: onSmallPicturesClick
+    onSmallPicturesClick: onSmallPicturesClick,
   };
 })();

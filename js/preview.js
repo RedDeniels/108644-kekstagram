@@ -2,10 +2,13 @@
 
 (function () {
 
+  var COMMENTS_COUNT = 5;
   var bigPicture = document.querySelector('.big-picture');
   var commentCount = document.querySelector('.social__comment-count');
   var commentsLoader = document.querySelector('.comments-loader');
   var socialComments = document.querySelector('.social__comments');
+  var socialCommentVisually = document.querySelector('.social__comment-visually');
+  var bigPictureCommentsHidden = [];
 
   var hidingDefaultComments = function () {
     var socialCommentsList = document.querySelectorAll('.social__comment');
@@ -14,11 +17,30 @@
     }
   };
 
+  var onCommentCountClick = function () {
+    renderBigPictureCommentsList(window.preview.bigPictureCommentsHidden, socialComments);
+  };
+
   var renderBigPictureCommentsList = function (comments, commentsBlock) {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < comments.length; i++) {
-      fragment.appendChild(renderBigPictureComment(comments[i], commentsBlock));
+    if (comments.length > COMMENTS_COUNT) {
+      commentsLoader.classList.remove('visually-hidden');
+      for (var i = 0; i < COMMENTS_COUNT; i++) {
+        fragment.appendChild(renderBigPictureComment(comments[i], commentsBlock));
+      }
+      window.preview.bigPictureCommentsHidden = comments.slice(5);
+      commentCount.classList.remove('visually-hidden');
+      window.preview.socialCommentVisually.textContent = Number(window.preview.socialCommentVisually.textContent) + 5;
+      commentsLoader.addEventListener('click', onCommentCountClick);
+    } else {
+      comments.forEach(function (item) {
+        fragment.appendChild(renderBigPictureComment(item, commentsBlock));
+        commentsLoader.classList.add('visually-hidden');
+        commentCount.classList.add('visually-hidden');
+        window.preview.socialCommentVisually.textContent = 0;
+      });
     }
+
     commentsBlock.appendChild(fragment);
   };
 
@@ -46,6 +68,8 @@
 
   window.preview = {
     bigPicture: bigPicture,
-    renderBigPicture: renderBigPicture
+    renderBigPicture: renderBigPicture,
+    bigPictureCommentsHidden: bigPictureCommentsHidden,
+    socialCommentVisually: socialCommentVisually
   };
 })();

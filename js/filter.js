@@ -2,11 +2,13 @@
 
 (function () {
   var FILTER_NEW_COUNT = 10;
+  var FILTER_SWITCH_TIME = 500;
   var imgFilters = document.querySelector('.img-filters');
   var filterPopular = document.getElementById('filter-popular');
   var filterNew = document.getElementById('filter-new');
   var filterDiscussed = document.getElementById('filter-discussed');
   var sortPictures;
+  var lastTimeout;
 
   var filterSwitch = function () {
     filterPopular.classList.remove('img-filters__button--active');
@@ -47,24 +49,41 @@
   };
 
   var onFilterPopularClick = function () {
-    filterSwitch();
-    filterPopular.classList.add('img-filters__button--active');
-    toClearPictures();
-    window.filter.sortPictures = window.picture.picturesElementsList;
-    window.picture.renderPictures(window.filter.sortPictures, window.picture.PICTURE_AMOUNT);
-    window.gallery.onSmallPicturesClick();
+    if (lastTimeout) {
+      window.clearTimeout(lastTimeout);
+    }
+    lastTimeout = window.setTimeout(function () {
+      filterSwitch();
+      filterPopular.classList.add('img-filters__button--active');
+      toClearPictures();
+      window.filter.sortPictures = window.picture.picturesElementsList;
+      window.picture.renderPictures(window.filter.sortPictures, window.picture.PICTURE_AMOUNT);
+      window.gallery.onSmallPicturesClick();
+    }, FILTER_SWITCH_TIME);
+
   };
 
   var onFilterNewClick = function () {
-    filterSwitch();
-    filterNew.classList.add('img-filters__button--active');
-    newFilter();
+    if (lastTimeout) {
+      window.clearTimeout(lastTimeout);
+    }
+    lastTimeout = window.setTimeout(function () {
+      filterSwitch();
+      filterNew.classList.add('img-filters__button--active');
+      newFilter();
+    }, FILTER_SWITCH_TIME);
+
   };
 
   var onFilterDiscussedClick = function () {
-    filterSwitch();
-    filterDiscussed.classList.add('img-filters__button--active');
-    discussedFilter();
+    if (lastTimeout) {
+      window.clearTimeout(lastTimeout);
+    }
+    lastTimeout = window.setTimeout(function () {
+      filterSwitch();
+      filterDiscussed.classList.add('img-filters__button--active');
+      discussedFilter();
+    }, FILTER_SWITCH_TIME);
   };
 
   filterPopular.addEventListener('click', onFilterPopularClick);

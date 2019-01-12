@@ -33,6 +33,7 @@
 
   var onPictureLoadSuccess = function (photos) {
     window.picture.picturesElementsList = photos.slice();
+    window.filter.sortPictures = photos.slice();
     renderPictures(photos, PICTURE_AMOUNT);
     window.gallery.onSmallPicturesClick();
     window.filter.imgFilters.classList.remove('img-filters--inactive');

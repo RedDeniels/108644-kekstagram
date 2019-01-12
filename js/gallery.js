@@ -12,6 +12,8 @@
 
   var closeBigPicture = function () {
     window.preview.bigPicture.classList.add('hidden');
+    window.preview.bigPictureCommentsHidden = [];
+    window.preview.socialCommentVisually.textContent = 0;
   };
 
   var openBigPicture = function (evt) {

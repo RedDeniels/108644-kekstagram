@@ -34,6 +34,15 @@
     window.picture.renderPictures(newPictures, FILTER_NEW_COUNT);
   };
 
+  var discussedFilter = function () {
+    var discussedPictures = window.picture.picturesElementsList;
+    discussedPictures.sort(function (a, b) {
+      return b.comments.length - a.comments.length;
+    });
+    toClearPictures();
+    window.picture.renderPictures(discussedPictures, discussedPictures.length);
+  };
+
   var onFilterPopularClick = function () {
     filterSwitch();
     filterPopular.classList.add('img-filters__button--active');
@@ -50,6 +59,7 @@
   var onFilterDiscussedClick = function () {
     filterSwitch();
     filterDiscussed.classList.add('img-filters__button--active');
+    discussedFilter();
   };
 
   filterPopular.addEventListener('click', onFilterPopularClick);

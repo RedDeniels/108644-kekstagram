@@ -87,7 +87,7 @@
     imgUploadOverlay.classList.add('hidden');
     uploadFile.value = '';
     textHashtags.value = '';
-    textDescription = '';
+    textDescription.value = '';
     successButton.addEventListener('click', onSuccessButtonClick);
   };
 
@@ -103,7 +103,7 @@
     main.querySelector('.error').remove();
     uploadFile.value = '';
     textHashtags.value = '';
-    textDescription = '';
+    textDescription.value = '';
     uploadFile.click();
   };
 

@@ -23,7 +23,7 @@
     });
   };
 
-  var newFilter = function () {
+  var newFilterSorting = function () {
     window.filter.sortPictures = window.picture.elements.slice();
     var j;
     var store;
@@ -38,7 +38,7 @@
     window.gallery.onSmallPicturesClick();
   };
 
-  var discussedFilter = function () {
+  var discussedFilterSorting = function () {
     window.filter.sortPictures = window.picture.elements.slice();
     window.filter.sortPictures.sort(function (a, b) {
       return b.comments.length - a.comments.length;
@@ -70,7 +70,7 @@
     lastTimeout = window.setTimeout(function () {
       filterSwitch();
       filterNew.classList.add('img-filters__button--active');
-      newFilter();
+      newFilterSorting();
     }, FILTER_SWITCH_TIME);
 
   };
@@ -82,7 +82,7 @@
     lastTimeout = window.setTimeout(function () {
       filterSwitch();
       filterDiscussed.classList.add('img-filters__button--active');
-      discussedFilter();
+      discussedFilterSorting();
     }, FILTER_SWITCH_TIME);
   };
 

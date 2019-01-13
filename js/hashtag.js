@@ -57,11 +57,11 @@
 
   };
 
-  var textHashtagsValidation = function () {
+  var textValidation = function () {
     hashTagsValidity(window.form.textHashtags.value);
   };
 
   window.hashtag = {
-    textHashtagsValidation: textHashtagsValidation
+    textValidation: textValidation
   };
 })();

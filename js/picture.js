@@ -2,12 +2,12 @@
 
 (function () {
 
-  var PICTURE_AMOUNT = 25;
+  var AMOUNT = 25;
   var picture = document.querySelector('#picture')
     .content
     .querySelector('.picture');
-  var pictures = document.querySelector('.pictures');
-  var picturesElementsList;
+  var container = document.querySelector('.pictures');
+  var elements;
 
   var createPictureElement = function (pictureElement, pictureBlock) {
     pictureBlock.querySelector('.picture__img').src = pictureElement.url;
@@ -22,21 +22,21 @@
     return pictureBlock;
   };
 
-  var renderPictures = function (photos, amount) {
+  var render = function (photos, amount) {
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < amount; i++) {
-      pictures[i] = photos[i];
-      fragment.appendChild(renderPictureElement(pictures[i]));
+      container[i] = photos[i];
+      fragment.appendChild(renderPictureElement(container[i]));
     }
-    pictures.appendChild(fragment);
+    container.appendChild(fragment);
   };
 
   var onPictureLoadSuccess = function (photos) {
-    window.picture.picturesElementsList = photos.slice();
+    window.picture.elements = photos.slice();
     window.filter.sortPictures = photos.slice();
-    renderPictures(photos, PICTURE_AMOUNT);
+    render(photos, AMOUNT);
     window.gallery.onSmallPicturesClick();
-    window.filter.imgFilters.classList.remove('img-filters--inactive');
+    window.filter.block.classList.remove('img-filters--inactive');
   };
 
   var onPictureLoadError = function (errorMessage) {
@@ -48,9 +48,9 @@
   window.backend.load(onPictureLoadSuccess, onPictureLoadError);
 
   window.picture = {
-    picturesElementsList: picturesElementsList,
-    pictures: pictures,
-    renderPictures: renderPictures,
-    PICTURE_AMOUNT: PICTURE_AMOUNT
+    elements: elements,
+    container: container,
+    render: render,
+    AMOUNT: AMOUNT
   };
 })();

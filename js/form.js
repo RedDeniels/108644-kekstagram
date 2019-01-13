@@ -53,15 +53,15 @@
     imgUploadForm.addEventListener('submit', onImgUploadFormSubmit);
     textHashtags.addEventListener('focus', onTextHashTagsFocus);
     textDescription.addEventListener('focus', onTextDescriptionFocus);
-    window.effect.uploadImage.classList.add(window.effect.effectsPrefix + window.effect.defaultEffect);
-    window.effect.onEffectClick();
+    window.effect.uploadImage.classList.add(window.effect.prefix + window.effect.standard);
+    window.effect.onClick();
   };
 
   var closeImgUploadOverlay = function () {
     imgUploadOverlay.classList.add('hidden');
     uploadFile.value = '';
     document.removeEventListener('keydown', onImgUploadOverlayEscPress);
-    textHashtags.removeEventListener('change', window.hashtag.textHashtagsValidation);
+    textHashtags.removeEventListener('change', window.hashtag.textValidation);
     imgUploadForm.removeEventListener('submit', onImgUploadFormSubmit);
     imgUploadForm.removeEventListener('submit', onImgUploadFormSubmit);
     textDescription.removeEventListener('focus', onTextDescriptionFocus);
@@ -119,11 +119,11 @@
 
   var onImgUploadFormSubmit = function (evt) {
     evt.preventDefault();
-    window.hashtag.textHashtagsValidation();
+    window.hashtag.textValidation();
     if (textHashtags.validationMessage !== '') {
       textHashtags.reportValidity();
       textHashtags.style.outlineColor = 'red';
-      textHashtags.addEventListener('change', window.hashtag.textHashtagsValidation);
+      textHashtags.addEventListener('change', window.hashtag.textValidation);
     } else {
       window.backend.upload(new FormData(imgUploadForm), onPictureUploadSuccess, onPictureUploadError);
       textHashtags.style.outlineColor = '';

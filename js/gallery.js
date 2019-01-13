@@ -19,7 +19,7 @@
   var openBigPicture = function (evt) {
     evt.preventDefault();
     var pictureElement = 0;
-    var pictureList = window.picture.pictures.querySelectorAll('.picture');
+    var pictureList = window.picture.container.querySelectorAll('.picture');
     for (var i = 0; i < pictureList.length; i++) {
       if (evt.target === pictureList[i].querySelector('img')) {
         pictureElement = window.filter.sortPictures[i];

@@ -2,6 +2,8 @@
 
 (function () {
 
+  var EFFECT_LEVEL_LINE_WIDTH = 453;
+
   var imgUploadEffectLevel = document.querySelector('.img-upload__effect-level');
   var uploadImage = document.querySelector('.img-upload__preview')
       .querySelector('img');
@@ -12,17 +14,16 @@
   var effectPhobos = document.getElementById('effect-phobos');
   var effectHeat = document.getElementById('effect-heat');
 
-  var effectsPrefix = 'effects__preview--';
+  var prefix = 'effects__preview--';
   var effectChromeName = 'chrome';
   var effectSepiaName = 'sepia';
   var effectMarvinName = 'marvin';
   var effectPhobosName = 'phobos';
   var effectHeatName = 'heat';
-  var defaultEffect = effectHeatName;
-  var userEffect = defaultEffect;
+  var standard = effectHeatName;
+  var userEffect = standard;
 
   var effectLevelLine = document.querySelector('.effect-level__line');
-  var EFFECT_LEVEL_LINE_WIDTH = 453;
   var effectLevelPin = document.querySelector('.effect-level__pin');
   var effectLevelDepth = document.querySelector('.effect-level__depth');
   var effectLevelValue = document.querySelector('.effect-level__value');
@@ -37,7 +38,7 @@
   var onSpecialEffectClick = function (effect) {
     userEffect = effect;
     switchEffect();
-    uploadImage.classList.add(effectsPrefix + effect);
+    uploadImage.classList.add(prefix + effect);
     if (userEffect === effectChromeName) {
       uploadImage.style.filter = 'grayscale(' + effectLevelUser / 100 + ')';
     } else if (userEffect === effectSepiaName) {
@@ -100,7 +101,7 @@
     document.addEventListener('mouseup', onEffectLevelPinMouseUp);
   });
 
-  var onEffectClick = function () {
+  var onClick = function () {
     effectChrome.addEventListener('click', function () {
       onSpecialEffectClick(effectChromeName);
     });
@@ -121,9 +122,9 @@
 
   window.effect = {
     uploadImage: uploadImage,
-    effectsPrefix: effectsPrefix,
-    defaultEffect: defaultEffect,
-    onEffectClick: onEffectClick
+    prefix: prefix,
+    standard: standard,
+    onClick: onClick
 
   };
 })();

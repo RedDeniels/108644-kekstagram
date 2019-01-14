@@ -39,13 +39,7 @@
     window.filter.block.classList.remove('img-filters--inactive');
   };
 
-  var onPictureLoadError = function (errorMessage) {
-    var fragment = window.form.error.cloneNode(true);
-    fragment.querySelector('.error__title').textContent = errorMessage;
-    window.form.main.appendChild(fragment);
-  };
-
-  window.backend.load(onPictureLoadSuccess, onPictureLoadError);
+  window.backend.load(onPictureLoadSuccess);
 
   window.picture = {
     elements: elements,

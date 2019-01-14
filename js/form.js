@@ -4,6 +4,7 @@
   var SCALE_PITCH = 25;
   var SCALE_VALUE_MIN = 25;
   var SCALE_VALUE_MAX = 100;
+  var SCALE_VALUE_DEFAULT = 100;
 
   var uploadFile = document.getElementById('upload-file');
   var imgUploadOverlay = document.querySelector('.img-upload__overlay');
@@ -86,6 +87,7 @@
     scaleControlBigger.addEventListener('click', onScaleBiggerClick);
     window.effect.uploadImage.classList.add(window.effect.prefix + window.effect.standard);
     window.effect.onClick();
+    window.effect.reset();
   };
 
   var closeImgUploadOverlay = function () {
@@ -98,6 +100,7 @@
     textDescription.removeEventListener('focus', onTextDescriptionFocus);
     scaleControlSmaller.removeEventListener('click', onScaleSmallerClick);
     scaleControlBigger.removeEventListener('click', onScaleBiggerClick);
+    scaleInstall(SCALE_VALUE_DEFAULT);
   };
 
   uploadFile.addEventListener('change', function () {
@@ -108,9 +111,27 @@
     closeImgUploadOverlay();
   });
 
-  var onSuccessButtonClick = function () {
-    successButton.removeEventListener('click', onSuccessButtonClick);
+  var closeSuccessOverlay = function (evt) {
+    evt.target.removeEventListener('click', onOutOfSuccessOverlayClick);
+    document.removeEventListener('keydown', onOverlayEscPress);
     main.querySelector('.success').remove();
+  };
+
+  var onSuccessButtonClick = function (evt) {
+    successButton.removeEventListener('click', onSuccessButtonClick);
+    closeSuccessOverlay(evt);
+  };
+
+  var onOutOfSuccessOverlayClick = function (evt) {
+    if (!(evt.target.classList.contains('success__inner')) && (evt.target.classList.contains('success'))) {
+      closeSuccessOverlay(evt);
+    }
+  };
+
+  var onOverlayEscPress = function (evt) {
+    if (evt.keyCode === window.util.ESC_KEYCODE) {
+      closeSuccessOverlay(evt);
+    }
   };
 
   var onPictureUploadSuccess = function () {
@@ -122,6 +143,9 @@
     textHashtags.value = '';
     textDescription.value = '';
     successButton.addEventListener('click', onSuccessButtonClick);
+    var background = document.querySelector('.success');
+    background.addEventListener('click', onOutOfSuccessOverlayClick);
+    document.addEventListener('keydown', onOverlayEscPress);
   };
 
   var onErrorButtonAgainClick = function () {
@@ -131,13 +155,36 @@
     onImgUploadFormSubmit(event);
   };
 
-  var onErrorButtonOtherClick = function () {
-    errorButtonOther.removeEventListener('click', onErrorButtonOtherClick);
-    main.querySelector('.error').remove();
+  var toClearValue = function () {
     uploadFile.value = '';
     textHashtags.value = '';
     textDescription.value = '';
-    uploadFile.click();
+    scaleInstall(SCALE_VALUE_DEFAULT);
+  };
+
+  var onErrorButtonOtherClick = function () {
+    errorButtonOther.removeEventListener('click', onErrorButtonOtherClick);
+    main.querySelector('.error').remove();
+    toClearValue();
+  };
+
+  var closeErrorOverlay = function (evt) {
+    evt.target.removeEventListener('click', onOutOfSuccessOverlayClick);
+    document.removeEventListener('keydown', onOverlayEscPress);
+    main.querySelector('.error').remove();
+    toClearValue();
+  };
+
+  var onOutOfErrorOverlayClick = function (evt) {
+    if (!(evt.target.classList.contains('error__inner')) && (evt.target.classList.contains('error'))) {
+      closeErrorOverlay(evt);
+    }
+  };
+
+  var onErrorOverlayEscPress = function (evt) {
+    if (evt.keyCode === window.util.ESC_KEYCODE) {
+      closeErrorOverlay(evt);
+    }
   };
 
   var onPictureUploadError = function () {
@@ -148,6 +195,9 @@
     imgUploadOverlay.classList.add('hidden');
     errorButtonAgain.addEventListener('click', onErrorButtonAgainClick);
     errorButtonOther.addEventListener('click', onErrorButtonOtherClick);
+    var background = document.querySelector('.error');
+    background.addEventListener('click', onOutOfErrorOverlayClick);
+    document.addEventListener('keydown', onErrorOverlayEscPress);
   };
 
   var onImgUploadFormSubmit = function (evt) {

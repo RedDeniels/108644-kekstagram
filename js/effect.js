@@ -2,7 +2,9 @@
 
 (function () {
 
-  var EFFECT_LEVEL_LINE_WIDTH = 453;
+  var LEVEL_LINE_WIDTH = 453;
+  var DEFAULT_LEVEL = 100;
+  var MAX_LEVEL = 100;
 
   var imgUploadEffectLevel = document.querySelector('.img-upload__effect-level');
   var uploadImage = document.querySelector('.img-upload__preview')
@@ -27,7 +29,7 @@
   var effectLevelPin = document.querySelector('.effect-level__pin');
   var effectLevelDepth = document.querySelector('.effect-level__depth');
   var effectLevelValue = document.querySelector('.effect-level__value');
-  var effectLevelUser = 1;
+  var effectLevelUser = 100;
 
   var switchEffect = function () {
     uploadImage.className = '';
@@ -70,8 +72,8 @@
       }
       var shift = startCoords - moveEvt.clientX;
       startCoords = moveEvt.clientX;
-      if (effectLevelPin.offsetLeft - shift > EFFECT_LEVEL_LINE_WIDTH) {
-        effectLevelPin.style.left = EFFECT_LEVEL_LINE_WIDTH + 'px';
+      if (effectLevelPin.offsetLeft - shift > LEVEL_LINE_WIDTH) {
+        effectLevelPin.style.left = LEVEL_LINE_WIDTH + 'px';
       } else if (effectLevelPin.offsetLeft - shift < 0) {
         effectLevelPin.style.left = 0 + 'px';
       } else {
@@ -83,8 +85,8 @@
       effectLevelValue.value = (((moveEvt.pageX - minEffectLevel) / lengthEffectLevel) * 100).toFixed();
       if (effectLevelValue.value < 0) {
         effectLevelValue.value = 0;
-      } else if (effectLevelValue.value > 100) {
-        effectLevelValue.value = 100;
+      } else if (effectLevelValue.value > MAX_LEVEL) {
+        effectLevelValue.value = MAX_LEVEL;
       }
       effectLevelUser = effectLevelValue.value;
       effectLevelDepth.style.width = effectLevelValue.value + '%';
@@ -101,22 +103,43 @@
     document.addEventListener('mouseup', onEffectLevelPinMouseUp);
   });
 
+  var reset = function () {
+    effectLevelPin.style.left = LEVEL_LINE_WIDTH + 'px';
+    effectLevelUser = DEFAULT_LEVEL;
+    effectLevelDepth.style.width = DEFAULT_LEVEL + '%';
+  };
+
+  var onEffectChromeClick = function () {
+    reset();
+    onSpecialEffectClick(effectChromeName);
+  };
+
+  var onEffectSepiaClick = function () {
+    reset();
+    onSpecialEffectClick(effectSepiaName);
+  };
+
+  var onEffectMarvinClick = function () {
+    reset();
+    onSpecialEffectClick(effectMarvinName);
+  };
+
+  var onEffectPhobosClick = function () {
+    reset();
+    onSpecialEffectClick(effectPhobosName);
+  };
+
+  var onEffectHeatClick = function () {
+    reset();
+    onSpecialEffectClick(effectHeatName);
+  };
+
   var onClick = function () {
-    effectChrome.addEventListener('click', function () {
-      onSpecialEffectClick(effectChromeName);
-    });
-    effectSepia.addEventListener('click', function () {
-      onSpecialEffectClick(effectSepiaName);
-    });
-    effectMarvin.addEventListener('click', function () {
-      onSpecialEffectClick(effectMarvinName);
-    });
-    effectPhobos.addEventListener('click', function () {
-      onSpecialEffectClick(effectPhobosName);
-    });
-    effectHeat.addEventListener('click', function () {
-      onSpecialEffectClick(effectHeatName);
-    });
+    effectChrome.addEventListener('click', onEffectChromeClick);
+    effectSepia.addEventListener('click', onEffectSepiaClick);
+    effectMarvin.addEventListener('click', onEffectMarvinClick);
+    effectPhobos.addEventListener('click', onEffectPhobosClick);
+    effectHeat.addEventListener('click', onEffectHeatClick);
     effectNone.addEventListener('click', onEffectNoneClick);
   };
 
@@ -124,7 +147,8 @@
     uploadImage: uploadImage,
     prefix: prefix,
     standard: standard,
-    onClick: onClick
+    onClick: onClick,
+    reset: reset
 
   };
 })();

@@ -1,6 +1,10 @@
 'use strict';
 
 (function () {
+  var SCALE_PITCH = 25;
+  var SCALE_VALUE_MIN = 25;
+  var SCALE_VALUE_MAX = 100;
+
   var uploadFile = document.getElementById('upload-file');
   var imgUploadOverlay = document.querySelector('.img-upload__overlay');
   var imgUploadCancel = document.querySelector('.img-upload__cancel');
@@ -19,6 +23,12 @@
     .content
     .querySelector('.success');
   var successButton = success.querySelector('.success__button');
+
+  var scaleControlSmaller = document.querySelector('.scale__control--smaller');
+  var scaleControlBigger = document.querySelector('.scale__control--bigger');
+  var scaleControlValue = document.querySelector('.scale__control--value');
+  var imgUploadPreview = document.querySelector('.img-upload__preview');
+  var scaleValue = 100;
 
   var onImgUploadOverlayEscPress = function (evt) {
     if (evt.keyCode === window.util.ESC_KEYCODE) {
@@ -47,12 +57,33 @@
     document.addEventListener('keydown', onImgUploadOverlayEscPress);
   };
 
+  var onScaleSmallerClick = function () {
+    var quantity = scaleValue - SCALE_PITCH;
+    quantity = quantity < SCALE_VALUE_MIN ? SCALE_VALUE_MIN : quantity;
+    scaleInstall(quantity);
+  };
+
+  var onScaleBiggerClick = function () {
+    var quantity = scaleValue + SCALE_PITCH;
+    quantity = quantity > SCALE_VALUE_MAX ? SCALE_VALUE_MAX : quantity;
+    scaleInstall(quantity);
+  };
+
+  var scaleInstall = function (quantity) {
+    scaleValue = quantity;
+    scaleControlValue.value = quantity + '%';
+    imgUploadPreview.style.transform = 'scale(' + quantity / 100 + ')';
+  };
+
   var openImgUploadOverlay = function () {
     imgUploadOverlay.classList.remove('hidden');
+    scaleInstall(scaleValue);
     document.addEventListener('keydown', onImgUploadOverlayEscPress);
     imgUploadForm.addEventListener('submit', onImgUploadFormSubmit);
     textHashtags.addEventListener('focus', onTextHashTagsFocus);
     textDescription.addEventListener('focus', onTextDescriptionFocus);
+    scaleControlSmaller.addEventListener('click', onScaleSmallerClick);
+    scaleControlBigger.addEventListener('click', onScaleBiggerClick);
     window.effect.uploadImage.classList.add(window.effect.prefix + window.effect.standard);
     window.effect.onClick();
   };
@@ -65,6 +96,8 @@
     imgUploadForm.removeEventListener('submit', onImgUploadFormSubmit);
     imgUploadForm.removeEventListener('submit', onImgUploadFormSubmit);
     textDescription.removeEventListener('focus', onTextDescriptionFocus);
+    scaleControlSmaller.removeEventListener('click', onScaleSmallerClick);
+    scaleControlBigger.removeEventListener('click', onScaleBiggerClick);
   };
 
   uploadFile.addEventListener('change', function () {

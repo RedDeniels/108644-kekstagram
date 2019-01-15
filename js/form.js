@@ -89,7 +89,7 @@
     scaleControlBigger.addEventListener('click', onScaleBiggerClick);
     window.effect.uploadImage.classList.add(window.effect.prefix + window.effect.standard);
     window.effect.onClick();
-    window.effect.reset();
+    window.effect.resetLevel();
   };
 
   var closeImgUploadOverlay = function () {

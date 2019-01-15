@@ -36,7 +36,7 @@
     window.filter.sortPictures = photos.slice();
     render(photos, AMOUNT);
     window.gallery.onSmallPicturesClick();
-    window.filter.block.classList.remove('img-filters--inactive');
+    window.filter.sortBlock.classList.remove('img-filters--inactive');
   };
 
   window.backend.load(onPictureLoadSuccess);

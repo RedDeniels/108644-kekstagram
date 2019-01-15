@@ -35,7 +35,7 @@
   var resetPicture = function () {
     effectLevelUser = STANDARD_EFFECT_LEVEL;
     onSpecialEffectClick(standard);
-    reset();
+    resetLevel();
   };
 
   var switchEffect = function () {
@@ -109,34 +109,34 @@
     document.addEventListener('mouseup', onEffectLevelPinMouseUp);
   });
 
-  var reset = function () {
+  var resetLevel = function () {
     effectLevelPin.style.left = LEVEL_LINE_WIDTH + 'px';
     effectLevelUser = DEFAULT_LEVEL;
     effectLevelDepth.style.width = DEFAULT_LEVEL + '%';
   };
 
   var onEffectChromeClick = function () {
-    reset();
+    resetLevel();
     onSpecialEffectClick(effectChromeName);
   };
 
   var onEffectSepiaClick = function () {
-    reset();
+    resetLevel();
     onSpecialEffectClick(effectSepiaName);
   };
 
   var onEffectMarvinClick = function () {
-    reset();
+    resetLevel();
     onSpecialEffectClick(effectMarvinName);
   };
 
   var onEffectPhobosClick = function () {
-    reset();
+    resetLevel();
     onSpecialEffectClick(effectPhobosName);
   };
 
   var onEffectHeatClick = function () {
-    reset();
+    resetLevel();
     onSpecialEffectClick(effectHeatName);
   };
 
@@ -154,9 +154,8 @@
     prefix: prefix,
     standard: standard,
     onClick: onClick,
-    reset: reset,
-    resetPicture: resetPicture,
-    uploadImage: uploadImage
+    resetLevel: resetLevel,
+    resetPicture: resetPicture
 
   };
 })();

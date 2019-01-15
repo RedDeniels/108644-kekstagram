@@ -3,7 +3,7 @@
 (function () {
   var FILTER_NEW_COUNT = 10;
   var FILTER_SWITCH_TIME = 500;
-  var block = document.querySelector('.img-filters');
+  var sortBlock = document.querySelector('.img-filters');
   var filterPopular = document.getElementById('filter-popular');
   var filterNew = document.getElementById('filter-new');
   var filterDiscussed = document.getElementById('filter-discussed');
@@ -85,7 +85,7 @@
   filterDiscussed.addEventListener('click', onDiscussedFilterClick);
 
   window.filter = {
-    block: block,
+    sortBlock: sortBlock,
     sortPictures: sortPictures
   };
 })();

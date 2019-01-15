@@ -155,7 +155,8 @@
     standard: standard,
     onClick: onClick,
     reset: reset,
-    resetPicture: resetPicture
+    resetPicture: resetPicture,
+    uploadImage: uploadImage
 
   };
 })();

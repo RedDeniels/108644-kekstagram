@@ -5,9 +5,9 @@
   var SCALE_VALUE_MIN = 25;
   var SCALE_VALUE_MAX = 100;
   var SCALE_VALUE_DEFAULT = 100;
+  var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
   var uploadFile = document.getElementById('upload-file');
-
 
   var imgUploadOverlay = document.querySelector('.img-upload__overlay');
   var imgUploadCancel = document.querySelector('.img-upload__cancel');
@@ -109,6 +109,23 @@
 
   uploadFile.addEventListener('change', function () {
     openImgUploadOverlay();
+
+    var file = uploadFile.files[0];
+    var fileName = file.name.toLowerCase();
+
+    var matches = FILE_TYPES.some(function (it) {
+      return fileName.endsWith(it);
+    });
+
+    if (matches) {
+      var reader = new FileReader();
+
+      reader.addEventListener('load', function () {
+        window.effect.uploadImage.src = reader.result;
+      });
+
+      reader.readAsDataURL(file);
+    }
   });
 
   imgUploadCancel.addEventListener('click', function () {

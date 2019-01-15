@@ -7,6 +7,8 @@
   var SCALE_VALUE_DEFAULT = 100;
 
   var uploadFile = document.getElementById('upload-file');
+
+
   var imgUploadOverlay = document.querySelector('.img-upload__overlay');
   var imgUploadCancel = document.querySelector('.img-upload__cancel');
 
@@ -15,7 +17,7 @@
   var imgUploadForm = document.querySelector('.img-upload__form');
 
   var main = document.querySelector('main');
-  var error = document.querySelector('#error')
+  var error = document.getElementById('error')
     .content
     .querySelector('.error');
   var errorButtonAgain = error.querySelector('.error__button-again');
@@ -101,6 +103,8 @@
     scaleControlSmaller.removeEventListener('click', onScaleSmallerClick);
     scaleControlBigger.removeEventListener('click', onScaleBiggerClick);
     scaleInstall(SCALE_VALUE_DEFAULT);
+    window.effect.resetPicture();
+    window.hashtag.resetError();
   };
 
   uploadFile.addEventListener('change', function () {

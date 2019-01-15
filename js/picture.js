@@ -3,7 +3,7 @@
 (function () {
 
   var AMOUNT = 25;
-  var picture = document.querySelector('#picture')
+  var picture = document.getElementById('picture')
     .content
     .querySelector('.picture');
   var container = document.querySelector('.pictures');

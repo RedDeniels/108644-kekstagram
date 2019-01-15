@@ -5,6 +5,7 @@
   var LEVEL_LINE_WIDTH = 453;
   var DEFAULT_LEVEL = 100;
   var MAX_LEVEL = 100;
+  var STANDARD_EFFECT_LEVEL = 100;
 
   var imgUploadEffectLevel = document.querySelector('.img-upload__effect-level');
   var uploadImage = document.querySelector('.img-upload__preview')
@@ -31,6 +32,12 @@
   var effectLevelValue = document.querySelector('.effect-level__value');
   var effectLevelUser = 100;
 
+  var resetPicture = function () {
+    effectLevelUser = STANDARD_EFFECT_LEVEL;
+    onSpecialEffectClick(standard);
+    reset();
+  };
+
   var switchEffect = function () {
     uploadImage.className = '';
     imgUploadEffectLevel.classList.remove('hidden');
@@ -53,7 +60,6 @@
       var heatEffectLevel = effectLevelUser / 100 * 2 + 1;
       uploadImage.style.filter = 'brightness(' + heatEffectLevel + ')';
     }
-
   };
 
   var onEffectNoneClick = function () {
@@ -148,7 +154,8 @@
     prefix: prefix,
     standard: standard,
     onClick: onClick,
-    reset: reset
+    reset: reset,
+    resetPicture: resetPicture
 
   };
 })();

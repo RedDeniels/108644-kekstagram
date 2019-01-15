@@ -5,6 +5,10 @@
   var MAX_HASHTAGS = 5;
   var MAX_LENGHT_HASHTAG = 20;
 
+  var resetError = function () {
+    window.form.textHashtags.setCustomValidity('');
+  };
+
   var hashTagsСompareCheck = function (hashTags) {
     for (var index = 0; index < hashTags.length; index++) {
       if (index < hashTags.length - 1) {
@@ -26,7 +30,7 @@
       } else if (hashTags[index] === '#') {
         window.form.textHashtags.setCustomValidity('Хештег не может состоять только из символа #');
       } else if (hashTags[index].substr(1).includes('#')) {
-        window.form.textHashtags.setCustomValidity('Внутри хештега не должно быть символа #');
+        window.form.textHashtags.setCustomValidity('Хэш-теги разделяются пробелами');
       } else if (hashTags[index].length > MAX_LENGHT_HASHTAG) {
         window.form.textHashtags.setCustomValidity('Хештег не должен быть длиннее 20 символов');
       } else if (hashTags.length > MAX_HASHTAGS) {
@@ -62,6 +66,7 @@
   };
 
   window.hashtag = {
-    textValidation: textValidation
+    textValidation: textValidation,
+    resetError: resetError
   };
 })();

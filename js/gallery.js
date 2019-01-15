@@ -14,6 +14,7 @@
     window.preview.bigPicture.classList.add('hidden');
     window.preview.bigPictureCommentsHidden = [];
     window.preview.socialCommentVisually.textContent = 0;
+    document.removeEventListener('keydown', onBigPictureEscPress);
   };
 
   var openBigPicture = function (evt) {
@@ -21,7 +22,7 @@
     var pictureElement = 0;
     var pictureList = window.picture.container.querySelectorAll('.picture');
     for (var i = 0; i < pictureList.length; i++) {
-      if (evt.target === pictureList[i].querySelector('img')) {
+      if (evt.target === pictureList[i].querySelector('img') || evt.target.querySelector('.picture__img') === pictureList[i].querySelector('img')) {
         pictureElement = window.filter.sortPictures[i];
         break;
       }

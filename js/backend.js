@@ -5,13 +5,14 @@
   var URL_UPLOAD = 'https://js.dump.academy/kekstagram';
   var TIME_LOAD = 10000;
   var TIME_UPLOAD = 10000;
+  var STATUS_SUCCESSFUL = 200;
 
   var upload = function (data, onLoad, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
-      return xhr.status === 200 ? onLoad(xhr.response) : onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
+      return xhr.status === STATUS_SUCCESSFUL ? onLoad(xhr.response) : onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
     });
     xhr.addEventListener('error', function () {
       onError('Произошла ошибка соединения');
